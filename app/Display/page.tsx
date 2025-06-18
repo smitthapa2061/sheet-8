@@ -23,8 +23,8 @@ const Controller: React.FC = () => {
   const [nextData, setNextData] = useState<DisplayRow[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const apiKey: string = "AIzaSyD5aSldQht9Aa4Snmf_aYo2jSg2A8bxhws"; // Google Sheets API key
-  const spreadsheetId: string = "1f1eVMjmhmmgBPxnLI8FGkvhusLzl55jPb4_B8vjjgpo"; // Google Sheets ID
+const apiKey: string = "AIzaSyCW9Livk0yImrNLglojFFq8pxdlJrIbzXk";
+const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
   const range = "display!A2:B58";
   const SHEET_API = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
 

@@ -18,8 +18,8 @@ type SetupData = {
   ColumnB: string;
 };
 
-const apiKey = "AIzaSyD5aSldQht9Aa4Snmf_aYo2jSg2A8bxhws";
-const spreadsheetId = "1f1eVMjmhmmgBPxnLI8FGkvhusLzl55jPb4_B8vjjgpo";
+const apiKey: string = "AIzaSyCW9Livk0yImrNLglojFFq8pxdlJrIbzXk";
+const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
 const matchScheduleRange = "matchSchedule!A2:H6";
 const setupRange = "setup!A2:B10";
 

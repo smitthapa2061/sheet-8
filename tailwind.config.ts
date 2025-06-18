@@ -13,6 +13,8 @@ export default {
         "gemunu-libre": ["Gemunu Libre", "sans-serif"],
         montserrat: ["Montserrat", "sans-serif"],
         teko: ["Teko", "sans-serif"],
+        russo : ["Russo One", "sans-serif"],
+        oswald : ["Oswald", "sans-serif"],
       },
       colors: {
         background: "var(--background)",

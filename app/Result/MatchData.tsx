@@ -22,8 +22,8 @@ type SetupData = {
   ColumnB: string;
 };
 
-const apiKey: string = "AIzaSyD5aSldQht9Aa4Snmf_aYo2jSg2A8bxhws";
-const spreadsheetId: string = "1f1eVMjmhmmgBPxnLI8FGkvhusLzl55jPb4_B8vjjgpo";
+const apiKey: string = "AIzaSyCW9Livk0yImrNLglojFFq8pxdlJrIbzXk";
+const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
 
 const MatchData: React.FC = () => {
   const [matchData, setMatchData] = useState<Team[]>([]); // Store match data
@@ -33,7 +33,7 @@ const MatchData: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const urlMatchData =
-    "https://script.google.com/macros/s/AKfycbwqzaYqLPRoUR2G_GkuJU1L5nMB9cOT5GvWzxC1ym5lLZaYNBy0wunKS4rj1Mo2JWF1Lw/exec";
+    "https://script.google.com/macros/s/AKfycbxsc1qrYICI5hzSEwyUqrEz2KRjgEeBRKr-PAUoyahzHPa8izU2v06wFwI6VnD37jyPrQ/exec";
 
   const urlSetupData = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/setup!A2:B10?key=${apiKey}`;
 

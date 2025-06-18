@@ -32,8 +32,8 @@ interface GoogleSheetData {
   values: [string, string][];
 }
 
-const apiKey = "AIzaSyD5aSldQht9Aa4Snmf_aYo2jSg2A8bxhws";
-const spreadsheetId = "1f1eVMjmhmmgBPxnLI8FGkvhusLzl55jPb4_B8vjjgpo";
+const apiKey: string = "AIzaSyCW9Livk0yImrNLglojFFq8pxdlJrIbzXk";
+const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
 
 const LiveStats: React.FC = () => {
   const [matchData, setMatchData] = useState<Team[]>([]);
@@ -44,7 +44,7 @@ const LiveStats: React.FC = () => {
   const [primaryColor, setPrimaryColor] = useState<string>("#b31616");
 
   const url =
-    "https://script.google.com/macros/s/AKfycbwkdYFWoAOXZ0zCbdYRH1wjVrTZxhhKjfj5jjGegL-JCLrKBXy7NhMSp7k3vteKp5HhDw/exec";
+    "https://script.google.com/macros/s/AKfycbxsc1qrYICI5hzSEwyUqrEz2KRjgEeBRKr-PAUoyahzHPa8izU2v06wFwI6VnD37jyPrQ/exec";
 
   const sheetApiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/setup!A2:B12?key=${apiKey}`;
 
@@ -159,19 +159,16 @@ const LiveStats: React.FC = () => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <div className="relative left-[1559px] top-[20px]">
+        <div className="relative left-[1559px] top-[20px] ">
           <div
-            className="bg-[#b31616] w-[370px] relative left-[59px]  h-[36px] flex justify-around text-white text-[16px] items-center font-[montserrat] font-bold"
-            style={{
-              backgroundColor: primaryColor,
-              clipPath:
-                "polygon(5% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 30%, 0% 60%)",
-            }}
+            className="bg-[#b31616] w-[430px] relative left-[px]  h-[36px] flex justify-around text-white text-[16px] items-center font-[montserrat] font-bold"
+           
+            style={{ background: `linear-gradient(to right, ${primaryColor}, ${setupData?.SECONDARY_COLOR})` }}
           >
             <div className="relative left-[39px]">TEAM</div>
-            <div className="relative left-[70px]">ALIVE</div>
-            <div className="relative left-[45px]">KILLS</div>
-            <div className="relative left-[12px]">TOTAL</div>
+            <div className="relative left-[100px]">ALIVE</div>
+            <div className="relative left-[65px]">KILLS</div>
+            <div className="relative left-[20px]">TOTAL</div>
           </div>
 
           <div>
@@ -179,21 +176,21 @@ const LiveStats: React.FC = () => {
               <div
                 style={{
                   opacity: setupData?.OPA,
-                  borderColor: setupData?.PRIMARY_COLOR,
-                  clipPath:
-                    "polygon(0% 0%, 100% 0%, 100% 100%, 4% 100%, 0% 80%, 0% 90%)",
+                  borderColor: `linear-gradient(to left, ${primaryColor}, ${setupData?.SECONDARY_COLOR})`,
+                 
                 }}
                 key={index}
-                className="bg-[#393939] w-[430px] h-[50px] flex font-bebas-neue font-[300] border-b-2 "
+               className={`w-[430px] h-[50px] flex font-oswald font-[400] border-b-2 ${
+  index % 2 === 0 ? "bg-[#2f2f2f]" : "bg-[#1f1f1f]"
+}`}
               >
                 <div
                   style={{
                     opacity: team.Alive === 0 || team.Alive === -1 ? 0.5 : 1,
-                    backgroundColor: setupData?.PRIMARY_COLOR,
-                    clipPath:
-                      "polygon(5% 0%, 100% 0%, 100% 100%, 0% 100%, 30% 30%, 0% 60%)",
+              
+                  
                   }}
-                  className={`text-white text-[35px] flex text-center justify-center items-center w-[60px] mt-[px]  `}
+                  className={`text-white text-[25px] flex text-center justify-center items-center w-[60px] mt-[px]  `}
                 >
                   {index + 1}
                 </div>
@@ -201,14 +198,14 @@ const LiveStats: React.FC = () => {
                 <div
                   className={`${
                     team.Alive === 0 ? "bg-[#ffffff00]" : "bg-[#fafafa00]"
-                  } w-[170px] h-[50px] absolute left-[60px] flex justify-left text-black border-solid `}
+                  } w-[170px] h-[50px] absolute left-[60px] flex justify-left text-black `}
                 >
                   <div
                     style={{
-                      backgroundColor: setupData?.SECONDARY_COLOR,
+                  
                       opacity: team.Alive === 0 || team.Alive === -1 ? 0.5 : 1,
                     }}
-                    className="w-[50px] h-[50px] absolute z-10 border-r-[2px] border-black"
+                    className="w-[50px] h-[50px] absolute z-10  "
                   >
                     <Image
                       src={
@@ -220,9 +217,9 @@ const LiveStats: React.FC = () => {
                       height={50}
                     />
                   </div>
-                  <div className="bg-white w-[120px] h-[80px] absolute left-[50px] top-[0px]"></div>
+                
                   <div
-                    className="text-[35px] w-[200px] h-[500px]  absolute left-[54px]"
+                    className=" w-[200px] h-[500px] text-white  absolute left-[54px]  text-[25px] mt-[5px]"
                     style={{
                       opacity: team.Alive === 0 || team.Alive === -1 ? 0.5 : 1,
                     }}
@@ -231,41 +228,37 @@ const LiveStats: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="absolute left-[240px] flex gap-[4px] mt-[7px] skew-y-6">
-                  {team.Alive === -1 ? (
-                    <div
-                      style={{ opacity: team.Alive === -1 ? 0.5 : 1 }}
-                      className="text-white text-[20px] font-bold"
-                    >
-                      MISS
-                    </div>
-                  ) : team.Alive === 0 ? (
-                    <div className="w-[50px] h-[50px] absolute top-[-5px] opacity-[70%]">
-                      <Image
-                        src={Dead.src as string}
-                        alt="Dead Icon"
-                        width={50}
-                        height={50}
-                      />
-                    </div>
-                  ) : (
-                    Array.from({ length: 4 }).map((_, index) => (
-                      <div
-                        key={index}
-                        className="w-[10px] h-[35px]"
-                        style={{
-                          backgroundColor:
-                            index < team.Alive
-                              ? `${setupData?.SECONDARY_COLOR}`
-                              : "#FF0000",
-                        }}
-                      ></div>
-                    ))
-                  )}
-                </div>
+           <div className="absolute left-[240px] flex gap-[4px] mt-[7px] ">
+  {team.Alive === -1 ? (
+    <div
+      style={{ opacity: team.Alive === -1 ? 0.5 : 1 }}
+      className="text-white text-[20px] font-bold"
+    >
+      MISS
+    </div>
+  ) : team.Alive === 0 ? (
+    <div className="relative w-[44px] h-[35px] flex items-center justify-between">
+      {Array.from({ length: 4 }).map((_, index) => (
+        <div key={index} className="w-[7px] h-[35px] bg-[#FF0000] opacity-70"></div>
+      ))}
+      <div className="absolute top-1/2 left-[-5px] w-[56px] h-[2px] bg-white opacity-80 transform -translate-y-1/2 skew-y-6"></div>
+    </div>
+  ) : (
+    Array.from({ length: 4 }).map((_, index) => (
+      <div
+        key={index}
+        className="w-[7px] h-[35px]"
+        style={{
+          backgroundColor:
+            index < team.Alive ? `white` : "#FF0000",
+        }}
+      ></div>
+    ))
+  )}
+</div>
 
                 <div
-                  className="absolute left-[300px] text-white text-[35px] mt-[1px] flex items-center justify-center w-[50px] h-[50px]"
+                  className="absolute left-[300px] text-white text-[25px] mt-[-3px] flex items-center justify-center w-[50px] h-[50px]"
                   style={{
                     opacity: team.Alive === 0 || team.Alive === -1 ? 0.5 : 1, // Apply opacity for both dead and miss
                   }}
@@ -273,7 +266,7 @@ const LiveStats: React.FC = () => {
                   {team.team_kills}
                 </div>
                 <div
-                  className="absolute left-[364px] text-white text-[35px] mt-[1px] flex items-center justify-center w-[50px] h-[50px]"
+                  className="absolute left-[364px] text-white  text-[25px] mt-[-3px] flex items-center justify-center w-[50px] h-[50px]"
                   style={{
                     opacity: team.Alive === 0 || team.Alive === -1 ? 0.5 : 1, // Apply opacity for both dead and miss
                   }}
@@ -285,23 +278,22 @@ const LiveStats: React.FC = () => {
             <div
               style={{
                 opacity: setupData?.OPA,
-                borderColor: setupData?.PRIMARY_COLOR,
-                clipPath:
-                  "polygon(0% 0%, 100% 0%, 100% 100%, 4% 100%, 0% 80%, 0% 90%)",
+             
+              
               }}
-              className="w-[370px] h-[40px] bg-[#1a1a1a] absolute left-[60px] text-white  text-[16px] font-[montserrat] font-bold "
+              className="w-[430px] h-[27px] bg-[#1a1a1a] absolute left-[0px] text-white  text-[16px] font-[montserrat] font-bold "
             >
-              <div className="text-[18px] absolute left-[70px] mt-[3px] flex">
+              <div className="text-[14px] absolute left-[100px] mt-[3px] flex">
                 ALIVE{" "}
                 <div
-                  style={{ backgroundColor: setupData?.SECONDARY_COLOR }}
-                  className="bg-green-500 w-[20px] h-[20px] ml-[10px] mt-[5px]"
+                  
+                  className=" w-[15px] h-[15px] ml-[10px] mt-[5px] bg-white" 
                 ></div>
                 <div className="flex ml-[70px]">
                   DEAD{" "}
                   <div
                     style={{ backgroundColor: "#FF0000" }}
-                    className="bg-green-500 w-[20px] h-[20px] ml-[10px] mt-[5px]"
+                    className=" w-[15px] h-[15px] ml-[10px] mt-[5px]"
                   ></div>
                 </div>
               </div>

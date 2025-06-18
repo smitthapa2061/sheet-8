@@ -33,11 +33,11 @@ const Mvp: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const matchDataURL =
-    "https://script.google.com/macros/s/AKfycbwqzaYqLPRoUR2G_GkuJU1L5nMB9cOT5GvWzxC1ym5lLZaYNBy0wunKS4rj1Mo2JWF1Lw/exec";
+    "https://script.google.com/macros/s/AKfycbxsc1qrYICI5hzSEwyUqrEz2KRjgEeBRKr-PAUoyahzHPa8izU2v06wFwI6VnD37jyPrQ/exec";
 
   // 👇 Updated API key and spreadsheet ID used here love 💕
-  const apiKey: string = "AIzaSyD5aSldQht9Aa4Snmf_aYo2jSg2A8bxhws";
-  const spreadsheetId: string = "1f1eVMjmhmmgBPxnLI8FGkvhusLzl55jPb4_B8vjjgpo";
+const apiKey: string = "AIzaSyCW9Livk0yImrNLglojFFq8pxdlJrIbzXk";
+const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
   const setupRange = "setup!A2:B10";
 
   const setupURL = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${setupRange}?key=${apiKey}`;

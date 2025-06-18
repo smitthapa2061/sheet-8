@@ -43,12 +43,13 @@ const Alerts: React.FC = () => {
 
   const prevMatchAlerts = useRef<Team[]>([]);
   const displayedDeadTeams = useRef<Set<string>>(new Set());
-
+const apiKey: string = "AIzaSyCW9Livk0yImrNLglojFFq8pxdlJrIbzXk";
+const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
   const url =
-    "https://script.google.com/macros/s/AKfycbwkdYFWoAOXZ0zCbdYRH1wjVrTZxhhKjfj5jjGegL-JCLrKBXy7NhMSp7k3vteKp5HhDw/exec";
+    "https://script.google.com/macros/s/AKfycbxsc1qrYICI5hzSEwyUqrEz2KRjgEeBRKr-PAUoyahzHPa8izU2v06wFwI6VnD37jyPrQ/exec";
 
   const setupUrl =
-    "https://sheets.googleapis.com/v4/spreadsheets/1f1eVMjmhmmgBPxnLI8FGkvhusLzl55jPb4_B8vjjgpo/values/setup!A2:B10?key=AIzaSyD5aSldQht9Aa4Snmf_aYo2jSg2A8bxhws";
+    `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/setup!A2:B10?key=${apiKey}`;
 
   useEffect(() => {
     const fetchSetupData = async () => {

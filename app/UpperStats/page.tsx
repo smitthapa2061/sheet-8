@@ -11,9 +11,8 @@ interface Team {
   wwcd_chance: number;
   team_kills: number; // Add team_kills to match the data structure
 }
-
-const apiKey: string = "AIzaSyD5aSldQht9Aa4Snmf_aYo2jSg2A8bxhws";
-const spreadsheetId: string = "1f1eVMjmhmmgBPxnLI8FGkvhusLzl55jPb4_B8vjjgpo";
+const apiKey: string = "AIzaSyCW9Livk0yImrNLglojFFq8pxdlJrIbzXk";
+const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
 const setupRange = "setup!A2:B10"; // Range for setup data (like primary color)
 const displayRange = "display!A21:B37"; // Range for visibility check (including B27)
 
@@ -24,7 +23,7 @@ const UpperStats: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(true); // State to manage visibility
 
   const matchDataUrl =
-    "https://script.google.com/macros/s/AKfycbwkdYFWoAOXZ0zCbdYRH1wjVrTZxhhKjfj5jjGegL-JCLrKBXy7NhMSp7k3vteKp5HhDw/exec";
+    "https://script.google.com/macros/s/AKfycbxsc1qrYICI5hzSEwyUqrEz2KRjgEeBRKr-PAUoyahzHPa8izU2v06wFwI6VnD37jyPrQ/exec";
 
   const setupDataUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${setupRange}?key=${apiKey}`;
   const displayDataUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${displayRange}?key=${apiKey}`;

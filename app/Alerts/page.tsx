@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { motion } from "framer-motion";
+import { motion ,AnimatePresence } from "framer-motion";
 import { div } from "framer-motion/client";
-
+import { Target } from 'lucide-react';
 interface Team {
   team_name: string;
   team_logo?: string;
@@ -132,82 +132,88 @@ const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
   if (error) return <p>{error}</p>;
   if (matchAlerts.length === 0) return <p>No match data available.</p>;
 
-  return (
-    <>
-      <div className="w-[1920px] h-[1080px] absolute   scale-150">
+
+
+
+return (
+  <>
+    <div className="w-[1920px] h-[1080px] absolute">
+      <AnimatePresence>
         {latestDeadTeam && (
-          <div className="">
+          <motion.div
+            key={latestDeadTeam.team_id || "dead-team"}
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 100 }}
+            transition={{ duration: 0.5 }}
+            className="relative top-[180px]"
+          >
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              className="relative top-[180px] scale-[80%]"
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="Rectangle57 flex justify-evenly relative w-[450px] h-[130px] mx-auto top-[250px] left-[-80px]"
+              style={{ background: primaryColor }}
             >
-              <div
-                style={{ backgroundColor: setupData.SECONDARY_COLOR }}
-                className="w-[307px] h-[70px] bg-black left-[890px] top-[380px] absolute skew-x-[-17deg] text-black font-[teko] font-[700] text-[50px] pl-[30px] "
+              {/* Logo Box slides in from right, out to right */}
+              <motion.div
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 100 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="bg-gradient-to-tr from-white to-[#a7a7a7] w-[150px] h-[130px] relative right-[175px] flex justify-center items-center"
+              >
+                <motion.img
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  style={{ width: 150, height: 150 }}
+                  className="border-white"
+                  src={
+                    latestDeadTeam.team_logo ||
+                    "https://res.cloudinary.com/dqckienxj/image/upload/v1727161524/default_ryi6uf.png"
+                  }
+                  alt="Team Logo"
+                />
+              </motion.div>
+
+              {/* ELIMINATED Text - fade up in, fade down out */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+                className="text-white font-teko text-[3.5rem] absolute left-[165px] font-[700] transform scale-y-[1.8] top-[10px]"
               >
                 ELIMINATED
-              </div>
+              </motion.div>
+
+              {/* Orange-Yellow Bar slides in from left, out to left */}
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={{ opacity: 0, x: -100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
                 transition={{ duration: 0.5, delay: 0.8 }}
-                className="Rectangle57 flex justify-evenly relative w-[550px] h-[130px] mx-auto top-[450px]  "
-                style={{
-                  background: primaryColor,
-                  clipPath:
-                    "polygon(100% 0%, 90% 100%, -100% 100%,-100% 0%, 0% 0%,100% 0%,0% 0%)",
-                }}
+                className="h-[40px] bg-gradient-to-l from-[#ffb42a] to-[#d39308] w-[340px] absolute top-[89px] left-[124px]"
               >
                 <div
-                  style={{
-                    clipPath:
-                      "polygon(100% 0%, 80% 100%, -100% 100%,-100% 100%, 0% 100%,0% 100%,20% 0%)",
-                  }}
-                  className="bg-gradient-to-tr from-white to-[#a7a7a7] w-[270px] h-[340px] relative right-[150px] flex justify-center items-center"
-                >
-                  <motion.img
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                    style={{
-                      width: 150,
-                      height: 150,
-                    }}
-                    className="border-white mt-[-190px] "
-                    src={
-                      latestDeadTeam.team_logo ||
-                      "https://res.cloudinary.com/dqckienxj/image/upload/v1727161524/default_ryi6uf.png"
-                    }
-                    alt="Team Logo"
-                  />
-                </div>
-
-                <motion.div
-                  initial={{ opacity: 0, x: -100 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 1.4 }}
-                  className="text-[4rem] font-bebas-neue h-full flex items-center top-[20px] relative left-[-100px] flex-col text-white"
+                  className="font-oswald text-black text-[1.5rem] absolute left-[70px] font-[400]"
                   style={{ color: setupData.TEXT_COLOR_2 || "white" }}
                 >
-                  TEAM {latestDeadTeam.team_name || "TEAM NAME"}
-                </motion.div>
+                  TEAM: {latestDeadTeam.team_name} | KILLS: {latestDeadTeam.team_kills}
+                </div>
               </motion.div>
-              <div
-                style={{
-                  backgroundColor: setupData.SECONDARY_COLOR || "#eee",
-                }}
-                className="w-[270px] h-[60px] bg-black left-[880px] top-[570px] absolute skew-x-[-17deg] text-black font-[teko] font-[600] text-[40px] pl-[30px] "
-              >
-                TOTAL KILLS - {latestDeadTeam.team_kills}
-              </div>
             </motion.div>
-          </div>
+          </motion.div>
         )}
-      </div>
-    </>
-  );
+      </AnimatePresence>
+    </div>
+  </>
+
+);
+
 };
 
 export default Alerts;

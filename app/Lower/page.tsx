@@ -96,7 +96,7 @@ const Lower = () => {
    useEffect(() => {
     const interval = setInterval(() => {
       setShowMatch(prev => !prev);
-    }, 30000); // switch every 3 seconds
+    }, 60000); // switch every 3 seconds
 
     return () => clearInterval(interval); // cleanup on unmount
   }, []);

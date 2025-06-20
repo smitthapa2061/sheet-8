@@ -5,6 +5,7 @@ import { motion ,AnimatePresence } from "framer-motion";
 import { div } from "framer-motion/client";
 import { Target } from 'lucide-react';
 interface Team {
+    team_id?: string; // <-- Add this line
   team_name: string;
   team_logo?: string;
   Alive: number;
@@ -185,7 +186,7 @@ return (
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ duration: 0.5, delay: 0.6 }}
-                className="text-white font-teko text-[3.5rem] absolute left-[165px] font-[700] transform scale-y-[1.8] top-[10px]"
+                className="text-white font-teko text-[3.5rem] absolute left-[165px] font-[700] transform scale-y-[2] top-[10px]"
               >
                 ELIMINATED
               </motion.div>
@@ -200,7 +201,7 @@ return (
               >
                 <div
                   className="font-oswald text-black text-[1.5rem] absolute left-[70px] font-[400]"
-                  style={{ color: setupData.TEXT_COLOR_2 || "white" }}
+              
                 >
                   TEAM: {latestDeadTeam.team_name} | KILLS: {latestDeadTeam.team_kills}
                 </div>

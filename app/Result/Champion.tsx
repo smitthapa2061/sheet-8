@@ -37,15 +37,21 @@ const SecondRunner: React.FC = () => {
         const response = await axios.get<{ values: string[][] }>(url);
         const values = response.data.values || [];
 
-        const data: TeamData[] = values.map((row: string[]) => ({
-          teamTag: row[0] || "",
-          teamLogo: row[1] || "https://default-image-url.com",
+          const data: TeamData[] = values.map((row: string[]) => ({
+          teamTag: row[0] || "0",
+          teamLogo:
+            row[1] ||
+            "https://res.cloudinary.com/dqckienxj/image/upload/v1730785916/default_ryi6uf_edmapm.png",
           totalkills: row[3] ? parseInt(row[3], 10) : 0,
           rankpoint: row[4] ? parseInt(row[4], 10) : 0,
           totalpoints: row[2] ? parseInt(row[2], 10) : 0,
           player_photo:
-            row[8] ||
-            "https://res.cloudinary.com/dqckienxj/image/upload/v1735762279/defult_chach_apsjhc_dwnd7n.png",
+  row[8] &&
+  row[8] !== "#N/A" &&
+  row[8] !== "N/A" &&
+  row[8] !== "MAX"
+    ? row[8]
+    : "https://res.cloudinary.com/dqckienxj/image/upload/v1727161666/defult_chach_apsjhc.png",
         }));
 
         const uniqueTeams = data.filter(

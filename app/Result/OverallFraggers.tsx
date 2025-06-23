@@ -49,7 +49,7 @@ const Fragger: React.FC = () => {
           player_name: row[6] || "Unknown", // Column 6 - Player Name (e.g., "PLAYER 6")
           player_photo:
             row[8] ||
-            "https://res.cloudinary.com/dqckienxj/image/upload/v1735762279/defult_chach_apsjhc_dwnd7n.png", // Column 8 - Player Photo URL
+            "https://res.cloudinary.com/dqckienxj/image/upload/v1727161666/defult_chach_apsjhc.png", // Column 8 - Player Photo URL
           player_kills: Number(row[7]) || 0, // Column 7 - Player Kills (e.g., 12)
           player_matches: Number(row[14]) || 0, // Column 14 - Matches Played (e.g., 1)
           kd_ratio: Number(row[5]) || 0, // Column 5 - K/D Ratio (e.g., 12)

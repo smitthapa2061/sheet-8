@@ -60,11 +60,25 @@ const EventFragger: React.FC = () => {
           setPrimaryColor(primaryColorValue[1] || "#FF0000");
         }
 
-        const sortedData = formattedData
-          .filter((p) => !isNaN(Number(p.playerkills))) // Filter valid numbers
-          .sort((a, b) => Number(b.playerkills) - Number(a.playerkills));
+     const sortedData = formattedData
+  .filter(
+    (p) =>
+      !isNaN(Number(p.playerkills)) &&
+      !isNaN(Number(p.kd)) &&
+      !isNaN(Number(p.contribution))
+  )
+  .sort((a, b) => {
+    const killsDiff = Number(b.playerkills) - Number(a.playerkills);
+    if (killsDiff !== 0) return killsDiff;
 
-        setTop1(sortedData[0]);
+    const kdDiff = Number(b.kd) - Number(a.kd);
+    if (kdDiff !== 0) return kdDiff;
+
+    return Number(b.contribution) - Number(a.contribution);
+  });
+
+setTop1(sortedData[0]);
+
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);

@@ -37,7 +37,7 @@ const SecondRunner: React.FC = () => {
         const response = await axios.get<{ values: string[][] }>(url);
         const values = response.data.values || [];
 
-        const data: TeamData[] = values.map((row: string[]) => ({
+           const data: TeamData[] = values.map((row: string[]) => ({
           teamTag: row[0] || "0",
           teamLogo:
             row[1] ||
@@ -72,17 +72,9 @@ const SecondRunner: React.FC = () => {
           setPrimaryColor(primaryColorValue[1] || "#FF0000");
         }
 
-        const sortedData = uniqueTeams.sort((a, b) => {
-          if (b.totalpoints !== a.totalpoints) {
-            return b.totalpoints - a.totalpoints;
-          } else if (b.rankpoint !== a.rankpoint) {
-            return b.rankpoint - a.rankpoint;
-          } else {
-            return b.totalkills - a.totalkills;
-          }
-        });
-
-        // Select the 3rd ranked team (2nd Runner-Up)
+        const sortedData = uniqueTeams.sort(
+          (a, b) => b.totalpoints - a.totalpoints
+        );
         setTop1(sortedData[2]);
       } catch (err) {
         setError(
@@ -117,8 +109,7 @@ const SecondRunner: React.FC = () => {
                   initial={{ x: -800 }}
                   animate={{ x: 0 }}
                   transition={{ duration: 0.5 + index * 0.2 }}
-                  className="w-[800px] relative top-[40px] "
-                  style={{ right: `${16 + 408 * index}px` }}
+                  className="w-[800px] relative top-[40px] ml-[-145px] mr-[-190px]"
                   src={
                     player.player_photo ||
                     "https://res.cloudinary.com/dqckienxj/image/upload/v1735762279/defult_chach_apsjhc_dwnd7n.png"
@@ -177,7 +168,7 @@ const SecondRunner: React.FC = () => {
                       transition={{ duration: 0.5, delay: 0.4 }}
                       className="flex font-[300] items-start text-6xl text-white font-teko"
                     >
-                      RANK-3
+                      RANK-2
                     </motion.div>
                     <motion.div
                       initial={{ opacity: 0, x: -40 }}

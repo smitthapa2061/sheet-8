@@ -166,7 +166,7 @@ const Fragger: React.FC = () => {
                 <div className="text-white mb-[-90px] text-[60px] ml-[10px] relative bottom-[10px]">
                   {index + 1}
                 </div>
-                <div className="text-white w-[490px] relative right-[80px] top-[0px] mb-[400px]">
+                <div className="text-white w-[490px] relative right-[80px] top-[0px] mb-[407px]">
                   <Image
                     src={
                       !row.player_photo || row.player_photo === "#N/A"

@@ -146,7 +146,7 @@ setTop1(sortedData[0]);
                     {top1.playerName}
                   </div>
                   <Image
-                    className="relative left-3 h-[230px]"
+                    className=" bg-black w-[100%] h-[246px] relative top-[-5px]"
                     src={top1.teamLogo}
                     alt="Team Logo"
                     width={200}

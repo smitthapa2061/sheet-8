@@ -235,10 +235,10 @@ const Overall: React.FC = () => {
           {/* Total */}
           <div
             style={{
-              backgroundColor: `${data2[6].ColumnB}`,
-              color: `${data2[7].ColumnB}`,
+              backgroundColor: `${data2[5].ColumnB}`,
+            
             }}
-            className="w-[140px] h-[63px] flex justify-center items-center text-[56px] skew-x-[6deg]"
+            className="w-[140px] h-[63px] flex justify-center items-center text-[56px] skew-x-[6deg] text-white"
           >
             {row.ColumnF}
           </div>

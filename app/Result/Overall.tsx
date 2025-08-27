@@ -108,18 +108,26 @@ const Overall: React.FC = () => {
   if (data.length === 0) return <div>Loading...</div>;
 
   return (
-    <div className="w-[1920px] h-[1080px] bg-yellow">
-      <div className="text-white text-[140px] font-[600] mb-[-120px] font-[teko] relative top-[-15px] left-[156px]">
+    <div className="w-[1920px] h-[1080px] ">
+      <div className="text-white text-[100px] font-[600] mb-[-80px] font-russo relative top-[-15px] left-[326px]">
         OVERALL RANKING
       </div>
       {data2.length > 0 && (
-        <div
-          style={{ backgroundColor: `${data2[5].ColumnB}` }}
-          className="w-[900px] h-[60px] mb-[-40px] relative left-[165px] text-[40px] text-white font-[montserrat] font-[700] text-left tracking-wider top-[50px] pl-[20px]"
-        >
-          {data2[2].ColumnB} | DAY - {data2[3].ColumnB} | MATCH -{" "}
-          {data2[4].ColumnB}
-        </div>
+      <div
+  className="relative left-[305px] top-[50px] mb-[-40px] w-[900px] h-[60px] pl-[20px] text-[40px] font-[montserrat] font-[700] tracking-wider text-white overflow-hidden"
+>
+  {/* Skewed background */}
+  <div
+    style={{ backgroundColor: `${data2[5].ColumnB}` }}
+    className="absolute inset-0 -skew-x-[20deg]"
+  ></div>
+
+  {/* Text (counter-skewed so it looks normal) */}
+  <div className="relative z-10  flex items-center h-full">
+    {data2[2].ColumnB} | DAY - {data2[3].ColumnB} | MATCH - {data2[4].ColumnB}
+  </div>
+</div>
+
       )}
 
       <motion.div
@@ -133,15 +141,15 @@ const Overall: React.FC = () => {
           <div>
             <div
               style={{
-                clipPath: "polygon(0% 100%,100% 100%,100% 0%, 2% 10%)",
+               
                 borderColor: `${data2[5].ColumnB}`,
               }}
-              className="w-[1321px] h-[35px] bg-white mb-[-80px] relative left-[75px] border-[1px] top-[110px]"
+              className=" skew-x-12 w-[1321px] h-[35px] bg-white mb-[-80px] relative left-[250px] border-[1px] top-[110px]"
             >
-              <div className="flex">
+              <div className="flex ">
                 <div
                   style={{ color: `${data2[5].ColumnB}` }}
-                  className="flex font-[montserrat] font-[800] text-[24px] tracking-wider"
+                  className="flex font-[montserrat] font-[800] text-[24px] tracking-wider "
                 >
                   <div className="ml-[40px]">#</div>
                   <div className="ml-[80px]">TEAM</div>
@@ -153,95 +161,97 @@ const Overall: React.FC = () => {
               </div>
             </div>
 
-            <motion.div
-              key={visibleColumn} // Ensures animation retriggers on visibleColumn change
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              className="grid grid-cols-2 gap-4 relative top-[180px] font-bebas-neue font-[500] left-[0px]"
-            >
-              <ul>
-                {currentVisibleData.map((row, index) => {
-                  const displayIndex = startIndex + index + 1;
-                  return (
-                    <motion.div
-                      className="p-4 mb-2 w-[1800px] h-[65px] relative left-[60px] flex"
-                      key={index}
-                      initial={{ opacity: 0, y: 50 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.5,
-                        ease: "easeOut",
-                        delay: index * 0.2,
-                      }}
-                    >
-                      <div
-                        style={{
-                          backgroundColor: `${data2[5].ColumnB}`,
-                          clipPath:
-                            "polygon(100% 100%,100% 100%,100% -90%, -50% 100%)",
-                        }}
-                        className="w-[100px] h-[63px] text-[58px] flex justify-center items-center text-white"
-                      >
-                        <div className="relative top-[4px]">{displayIndex}</div>
-                      </div>
-                      <div className="bg-[#000000cf] w-[660px] h-[63px] flex">
-                        <div className="w-[62px] h-[62px]">
-                          <Image
-                            src={row.ColumnB || ""}
-                            alt="Team Logo"
-                            width={62}
-                            height={62}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="text-white text-[58px] mt-[-7px] ml-[10px]">
-                          {row.ColumnA}
-                        </div>
-                      </div>
-                      <div
-                        style={{ backgroundColor: `${data2[5].ColumnB}` }}
-                        className="text-white w-[140px] h-[63px] flex justify-center items-center text-[56px]"
-                      >
-                        {row.ColumnE}
-                      </div>
-                      <div
-                        style={{ backgroundColor: `${data2[5].ColumnB}` }}
-                        className="text-white w-[140px] h-[63px] flex justify-center items-center text-[56px]"
-                      >
-                        {row.ColumnD}
-                      </div>
-                      <div
-                        style={{ backgroundColor: `${data2[5].ColumnB}` }}
-                        className="text-white w-[140px] h-[63px] flex justify-center items-center text-[56px]"
-                      >
-                        {row.ColumnC}
-                      </div>
-                      <div
-                        style={{
-                          backgroundColor: `${data2[6].ColumnB}`,
-                          color: `${data2[7].ColumnB}`,
-                        }}
-                        className="w-[140px] h-[63px] flex justify-center items-center text-[56px]"
-                      >
-                        {row.ColumnF}
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </ul>
-            </motion.div>
+          <motion.div
+  key={visibleColumn}
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  exit={{ opacity: 0 }}
+  transition={{ duration: 0.5 }}
+  className="grid grid-cols-2 gap-4 relative top-[180px] font-bebas-neue font-[500] left-[0px]"
+>
+  <ul>
+    {currentVisibleData.map((row, index) => {
+      const displayIndex = startIndex + index + 1;
+      return (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            ease: "easeOut",
+            delay: index * 0.2,
+          }}
+          className="p-4 mb-2 w-[1800px] h-[70px] relative left-[230px] flex skew-x-[-6deg] overflow-hidden"
+        >
+          {/* Rank */}
+          <div
+            style={{ backgroundColor: `${data2[5].ColumnB}` }}
+            className="w-[100px] h-[63px] flex justify-center items-center text-white text-[58px] skew-x-[6deg]"
+          >
+            {displayIndex}
+          </div>
+
+          {/* Team */}
+          <div className="bg-[#000000cf] w-[660px] h-[63px] flex skew-x-[6deg]">
+            <div className="w-[62px] h-[62px]">
+              <Image
+                src={row.ColumnB || ""}
+                alt="Team Logo"
+                width={62}
+                height={62}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="text-white text-[58px] ml-[10px] flex items-center">
+              {row.ColumnA}
+            </div>
+          </div>
+
+          {/* WWCD */}
+          <div
+            style={{ backgroundColor: `${data2[5].ColumnB}` }}
+            className="text-white w-[140px] h-[63px] flex justify-center items-center text-[56px] skew-x-[6deg]"
+          >
+            {row.ColumnE}
+          </div>
+
+          {/* Placement */}
+          <div
+            style={{ backgroundColor: `${data2[5].ColumnB}` }}
+            className="text-white w-[140px] h-[63px] flex justify-center items-center text-[56px] skew-x-[6deg]"
+          >
+            {row.ColumnD}
+          </div>
+
+          {/* Kills */}
+          <div
+            style={{ backgroundColor: `${data2[5].ColumnB}` }}
+            className="text-white w-[140px] h-[63px] flex justify-center items-center text-[56px] skew-x-[6deg]"
+          >
+            {row.ColumnC}
+          </div>
+
+          {/* Total */}
+          <div
+            style={{
+              backgroundColor: `${data2[6].ColumnB}`,
+              color: `${data2[7].ColumnB}`,
+            }}
+            className="w-[140px] h-[63px] flex justify-center items-center text-[56px] skew-x-[6deg]"
+          >
+            {row.ColumnF}
+          </div>
+        </motion.div>
+      );
+    })}
+  </ul>
+</motion.div>
+
           </div>
         )}
       </motion.div>
-      <Image
-        className="flex fixed top-[270px] left-[1290px]"
-        width={800}
-        height={500}
-        src="https://res.cloudinary.com/dqckienxj/image/upload/v1745194575/Layer_1_j7bfyq.png"
-        alt="img"
-      />
+      
     </div>
   );
 };

@@ -168,7 +168,7 @@ const Banner: React.FC = () => {
  
 
   <div className="w-[100%] h-[20px] absolute left-[750px] ">
-<div className="text-[2.2rem] absolute text-white font-bebas-neue bg-[#000000aa] pl-[30px] pr-[30px]">{setupData?.TOR_NAME} - {setupData?.ROUND} -  DAY  {setupData?.DAY} - MATCH {setupData?.MATCHES}</div>
+<div className="text-[2.2rem] absolute text-white font-bebas-neue bg-[#000000aa] pl-[30px] pr-[30px]">{setupData?.TOR_NAME} - {setupData?.ROUND} -  DAY  {setupData?.DAY} </div>
 </div>
 <div
   style={{

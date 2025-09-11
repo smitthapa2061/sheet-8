@@ -34,14 +34,13 @@ const spreadsheetId = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
 
 const Banner: React.FC = () => {
   const [matchData, setMatchData] = useState<Team[]>([]);
+  const [lastValidData, setLastValidData] = useState<Team[]>([]);
   const [setupData, setSetupData] = useState<SetupData | null>(null);
   const [primaryColor, setPrimaryColor] = useState("#b31616");
-  const [lastValidData, setLastValidData] = useState<Team[]>([]);
-
-  const url =
-    "https://script.google.com/macros/s/AKfycbxsc1qrYICI5hzSEwyUqrEz2KRjgEeBRKr-PAUoyahzHPa8izU2v06wFwI6VnD37jyPrQ/exec";
 
   const sheetApiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/setup!A2:B12?key=${apiKey}`;
+  const dataUrl =
+    "https://script.google.com/macros/s/AKfycbxsc1qrYICI5hzSEwyUqrEz2KRjgEeBRKr-PAUoyahzHPa8izU2v06wFwI6VnD37jyPrQ/exec";
 
   // Fetch setup data once
   useEffect(() => {
@@ -49,84 +48,78 @@ const Banner: React.FC = () => {
       try {
         const response = await fetch(sheetApiUrl);
         const data: GoogleSheetData = await response.json();
-        const formattedData: Record<string, string> = {};
+        const formatted: Record<string, string> = {};
         data.values.forEach(([key, value]) => {
-          formattedData[key.trim().toUpperCase().replace(/\s+/g, "_")] = value;
+          formatted[key.trim().toUpperCase().replace(/\s+/g, "_")] = value;
         });
-
         const structured: SetupData = {
-          TOR_NAME: formattedData["TOR_NAME"] || "",
-          TOR_LOGO: formattedData["TOR_LOGO"] || "",
-          ROUND: formattedData["ROUND"] || "",
-          DAY: formattedData["DAY"] || "",
-          MATCHES: formattedData["MATCHES"] || "",
-          PRIMARY_COLOR: formattedData["PRIMARY_COLOR"] || "#b31616",
-          SECONDARY_COLOR: formattedData["SECONDARY_COLOR"] || "#000",
-          TEXT_COLOR_1: formattedData["TEXT_COLOR_1"] || "#fff",
-          TEXT_COLOR_2: formattedData["TEXT_COLOR_2"] || "#fff",
-          BG_URL: formattedData["BG_URL"] || "",
+          TOR_NAME: formatted["TOR_NAME"] || "",
+          TOR_LOGO: formatted["TOR_LOGO"] || "",
+          ROUND: formatted["ROUND"] || "",
+          DAY: formatted["DAY"] || "",
+          MATCHES: formatted["MATCHES"] || "",
+          PRIMARY_COLOR: formatted["PRIMARY_COLOR"] || "#b31616",
+          SECONDARY_COLOR: formatted["SECONDARY_COLOR"] || "#000",
+          TEXT_COLOR_1: formatted["TEXT_COLOR_1"] || "#fff",
+          TEXT_COLOR_2: formatted["TEXT_COLOR_2"] || "#fff",
+          BG_URL: formatted["BG_URL"] || "",
         };
-
         setSetupData(structured);
         setPrimaryColor(structured.PRIMARY_COLOR);
       } catch (err) {
-        console.error("Error fetching setup data:", err);
+        console.error("Setup fetch failed:", err);
       }
     };
-
     fetchSetupData();
   }, [sheetApiUrl]);
 
-  // Fetch match data continuously with retry
+  // Fetch match data continuously
   useEffect(() => {
     let isMounted = true;
+    let retryDelay = 7500; // initial retry delay
 
     const fetchData = async () => {
       try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error("Failed to fetch new data ");
+        const response = await fetch(dataUrl);
+        if (!response.ok) throw new Error("Failed to fetch data");
 
         const data = await response.json();
-
-        if (!data.match_info || !Array.isArray(data.match_info)) {
+        if (!data.match_info || !Array.isArray(data.match_info))
           throw new Error("Invalid data format");
-        }
 
-        const uniqueData = data.match_info
+        const uniqueData: Team[] = data.match_info
           .filter((team: { player_rank: string }) => !team.player_rank)
           .reduce((acc: Team[], team: Team) => {
-            if (!acc.some((item) => item.team_name === team.team_name)) {
+            if (!acc.some((item) => item.team_name === team.team_name))
               acc.push(team);
-            }
             return acc;
           }, []);
 
-        uniqueData.sort((a: Team, b: Team) => b.team_kills - a.team_kills);
+        uniqueData.sort((a, b) => b.team_kills - a.team_kills);
 
         if (isMounted) {
           setMatchData(uniqueData);
           setLastValidData(uniqueData); // save last valid data
+          retryDelay = 7500; // reset backoff on success
         }
       } catch (err) {
-        console.error("Error fetching match data:", err);
-        // Keep showing last valid data
+        console.error("Match fetch failed:", err);
         if (isMounted && lastValidData.length > 0) {
-          setMatchData(lastValidData);
+          setMatchData(lastValidData); // keep last valid data
+          retryDelay = Math.min(retryDelay * 2, 60000); // exponential backoff
         }
       } finally {
-        // Retry automatically after 7.5s
-        if (isMounted) setTimeout(fetchData, 7500);
+        if (isMounted) setTimeout(fetchData, retryDelay);
       }
     };
 
     fetchData();
-
     return () => {
       isMounted = false;
     };
   }, [lastValidData]);
 
-  // Filter and sort for display
+  // Filter & sort for display
   const validTeams = matchData.filter(
     (team) => team.team_name && !team.exclude
   );
@@ -136,7 +129,6 @@ const Banner: React.FC = () => {
       if (a.overall_points > b.overall_points) return -1;
       if (a.overall_points < b.overall_points) return 1;
     }
-
     if (a.Alive === -1 && b.Alive !== -1) return 1;
     if (a.Alive !== -1 && b.Alive === -1) return -1;
     if (a.Alive === 0 && b.Alive !== 0) return 1;
@@ -167,6 +159,7 @@ const Banner: React.FC = () => {
         >
           <img src={setupData?.TOR_LOGO} alt="" />
         </div>
+
         <div className="w-[2500px] flex flex-wrap justify-start items-start gap-x-[10px] gap-y-[10px] px-[120px] py-[10px] scale-75 absolute left-[-120px] top-[13px]">
           {sortedData.map((team, index) => (
             <div
@@ -229,7 +222,9 @@ const Banner: React.FC = () => {
                       className="w-[10px] h-[35px]"
                       style={{
                         backgroundColor:
-                          idx < team.Alive ? setupData?.SECONDARY_COLOR : "#FF0000",
+                          idx < team.Alive
+                            ? setupData?.SECONDARY_COLOR
+                            : "#FF0000",
                       }}
                     ></div>
                   ))

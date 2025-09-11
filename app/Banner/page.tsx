@@ -84,7 +84,7 @@ const Banner: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(url);
-        if (!response.ok) throw new Error("Failed to fetch data");
+        if (!response.ok) throw new Error("Failed to fetch ");
 
         const data = await response.json();
 

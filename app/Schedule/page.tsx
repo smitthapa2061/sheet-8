@@ -127,7 +127,7 @@ const Schedule = () => {
                   <img
                     src={
                       match.WWCD_TEAM_LOGO ||
-                      "https://res.cloudinary.com/dqckienxj/image/upload/v1730785916/default_ryi6uf_edmapm.png"
+                      "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921117/orqtufih6h2efu2s24um.png"
                     }
                     alt="logo"
                     className="mb-[-315px]"

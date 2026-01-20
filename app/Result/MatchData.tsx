@@ -312,7 +312,7 @@ const MatchData: React.FC = () => {
                       <Image
                         src={
                           team.team_logo ||
-                          "https://res.cloudinary.com/dqckienxj/image/upload/v1730785916/default_ryi6uf_edmapm.png"
+                          "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921117/orqtufih6h2efu2s24um.png"
                         }
                         layout="fill"
                         objectFit="cover" // You can use objectFit like 'cover' or 'contain'
@@ -325,7 +325,7 @@ const MatchData: React.FC = () => {
                     {team.chicken === 1 ? (
                       <div className="w-[65px] h-[65x] relative top-[6px] left-[90px] ">
                         <Image
-                          src="https://res.cloudinary.com/dqckienxj/image/upload/v1735721889/roast-chicken_kjcdkw.png"
+                          src="https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921113/nidvrnkwo0qbpatawjjq.png"
                           layout="fill"
                           objectFit="cover" // You can use objectFit like 'cover' or 'contain'
                           alt="Image"

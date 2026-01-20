@@ -125,7 +125,7 @@ const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
                     <Image
                       src={
                         topPlayer?.player_photo ||
-                        "https://res.cloudinary.com/dqckienxj/image/upload/v1737809848/Layer_6_cnd9gl_ugaxek.png"
+                        "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921113/nidvrnkwo0qbpatawjjq.png"
                       }
                       alt="Player"
                       width={800}
@@ -139,7 +139,7 @@ const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
                     <Image
                       src={
                         topPlayer?.team_logo ||
-                        "https://res.cloudinary.com/dqckienxj/image/upload/v1730785916/default_ryi6uf_edmapm.png"
+                        "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921117/orqtufih6h2efu2s24um.png"
                       }
                       alt="Team Logo"
                       width={200}

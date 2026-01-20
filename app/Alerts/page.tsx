@@ -174,7 +174,7 @@ return (
                   className="border-white"
                   src={
                     latestDeadTeam.team_logo ||
-                    "https://res.cloudinary.com/dqckienxj/image/upload/v1727161524/default_ryi6uf.png"
+                    "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921117/orqtufih6h2efu2s24um.png"
                   }
                   alt="Team Logo"
                 />

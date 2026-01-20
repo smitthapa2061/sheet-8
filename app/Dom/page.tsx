@@ -154,7 +154,7 @@ const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
                 <Image
                   src={
                     playerMilestone.team_logo ||
-                    "https://res.cloudinary.com/dqckienxj/image/upload/v1730785916/default_ryi6uf_edmapm.png"
+                    "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921117/orqtufih6h2efu2s24um.png"
                   }
                   alt="Team Logo"
                   layout="fill" // Automatically adjusts the image size
@@ -166,7 +166,7 @@ const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
                   <Image
                     src={
                       playerMilestone.player_photo ||
-                      "https://res.cloudinary.com/dqckienxj/image/upload/v1735762279/defult_chach_apsjhc_dwnd7n.png"
+                      "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921113/nidvrnkwo0qbpatawjjq.png"
                     }
                     alt="Player"
                     layout="fill" // Automatically adjusts the image size

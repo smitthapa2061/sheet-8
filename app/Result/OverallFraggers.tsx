@@ -157,7 +157,7 @@ const Fragger: React.FC = () => {
               >
                 <div className="w-[100px] h-[100px] mb-[-100px] relative left-[240px]">
                   <Image
-                    src={row.team_logo}
+                    src={row.team_logo || "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921117/orqtufih6h2efu2s24um.png"}
                     alt="Team Logo"
                     width={120} // specify the width
                     height={120} // specify the height
@@ -170,7 +170,7 @@ const Fragger: React.FC = () => {
                   <Image
                     src={
                       !row.player_photo || row.player_photo === "#N/A"
-                        ? "https://res.cloudinary.com/dqckienxj/image/upload/v1735762279/defult_chach_apsjhc_dwnd7n.png"
+                        ? "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921113/nidvrnkwo0qbpatawjjq.png"
                         : row.player_photo
                     }
                     alt="Player"

@@ -46,7 +46,7 @@ const Overall: React.FC = () => {
             ColumnA: row[15] || null,
             ColumnB:
               row[1] ||
-              "https://res.cloudinary.com/dqckienxj/image/upload/v1730785916/default_ryi6uf_edmapm.png",
+              "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921117/orqtufih6h2efu2s24um.png",
             ColumnC: row[3] ? parseInt(row[3], 10) : 0,
             ColumnD: row[4] ? parseInt(row[4], 10) : 0,
             ColumnE: row[9] ? parseInt(row[9], 10) : 0,

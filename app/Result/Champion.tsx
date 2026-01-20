@@ -41,7 +41,7 @@ const SecondRunner: React.FC = () => {
           teamTag: row[0] || "0",
           teamLogo:
             row[1] ||
-            "https://res.cloudinary.com/dqckienxj/image/upload/v1730785916/default_ryi6uf_edmapm.png",
+            "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921117/orqtufih6h2efu2s24um.png",
           totalkills: row[3] ? parseInt(row[3], 10) : 0,
           rankpoint: row[4] ? parseInt(row[4], 10) : 0,
           totalpoints: row[2] ? parseInt(row[2], 10) : 0,
@@ -51,7 +51,7 @@ const SecondRunner: React.FC = () => {
   row[8] !== "N/A" &&
   row[8] !== "MAX"
     ? row[8]
-    : "https://res.cloudinary.com/dqckienxj/image/upload/v1727161666/defult_chach_apsjhc.png",
+    : "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921113/nidvrnkwo0qbpatawjjq.png",
         }));
 
         const uniqueTeams = data.filter(
@@ -120,7 +120,7 @@ const SecondRunner: React.FC = () => {
                   className="w-[800px] relative top-[40px] ml-[-200px] mr-[-100px]"
                   src={
                     player.player_photo ||
-                    "https://res.cloudinary.com/dqckienxj/image/upload/v1735762279/defult_chach_apsjhc_dwnd7n.png"
+                    "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921113/nidvrnkwo0qbpatawjjq.png"
                   }
                   alt={`Player ${index + 1}`}
                 />

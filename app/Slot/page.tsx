@@ -121,7 +121,7 @@ const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
                 <Image
                   src={
                     row.ColumnC ||
-                    "https://res.cloudinary.com/dqckienxj/image/upload/v1727161652/default_nuloh2.png"
+                    "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921117/orqtufih6h2efu2s24um.png"
                   }
                   alt="Slot Image"
                   width={170}

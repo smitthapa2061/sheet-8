@@ -119,7 +119,7 @@ setTop1(sortedData[0]);
               <Image
                 src={
                   top1.PlayerPhoto ||
-                  "https://res.cloudinary.com/dqckienxj/image/upload/v1735762279/defult_chach_apsjhc_dwnd7n.png"
+                  "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921113/nidvrnkwo0qbpatawjjq.png"
                 }
                 alt="Player Image"
                 width={1000}
@@ -147,7 +147,7 @@ setTop1(sortedData[0]);
                   </div>
                   <Image
                     className=" bg-black w-[100%] h-[246px] relative top-[-5px]"
-                    src={top1.teamLogo}
+                    src={top1.teamLogo || "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921117/orqtufih6h2efu2s24um.png"}
                     alt="Team Logo"
                     width={200}
                     height={200}

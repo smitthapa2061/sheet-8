@@ -207,15 +207,15 @@ const LiveStats: React.FC = () => {
                     }}
                     className="w-[50px] h-[50px] absolute z-10  "
                   >
-                    <Image
-                      src={
-                        team.team_logo ||
-                        "https://res.cloudinary.com/dqckienxj/image/upload/v1727161652/default_nuloh2.png"
-                      }
-                      alt="Team Logo"
-                      width={50}
-                      height={50}
-                    />
+               <Image
+  src={team.team_logo?.startsWith("http")
+    ? team.team_logo
+    : team.team_logo || "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921117/orqtufih6h2efu2s24um.png"}
+  alt="Team logo"
+  width={64}
+  height={64}
+  unoptimized
+/>
                   </div>
                 
                   <div

@@ -119,11 +119,14 @@ const Overall: React.FC = () => {
   {/* Skewed background */}
   <div
     style={{ backgroundColor: `${data2[5].ColumnB}` }}
-    className="absolute inset-0 -skew-x-[20deg]"
+    className="absolute "
   ></div>
 
   {/* Text (counter-skewed so it looks normal) */}
-  <div className="relative z-10  flex items-center h-full">
+  <div 
+              style={{ backgroundColor: `${data2[5].ColumnB}` }}
+
+  className="relative z-10  flex items-center h-full">
     {data2[2].ColumnB} | DAY - {data2[3].ColumnB} | MATCH - {data2[4].ColumnB}
   </div>
 </div>
@@ -144,7 +147,7 @@ const Overall: React.FC = () => {
                
                 borderColor: `${data2[5].ColumnB}`,
               }}
-              className=" skew-x-12 w-[1321px] h-[35px] bg-white mb-[-80px] relative left-[250px] border-[1px] top-[110px]"
+              className="  w-[1321px] h-[35px] bg-white mb-[-80px] relative left-[250px] border-[1px] top-[110px]"
             >
               <div className="flex ">
                 <div
@@ -182,18 +185,18 @@ const Overall: React.FC = () => {
             ease: "easeOut",
             delay: index * 0.2,
           }}
-          className="p-4 mb-2 w-[1800px] h-[70px] relative left-[230px] flex skew-x-[-6deg] overflow-hidden"
+          className="p-4 mb-2 w-[1800px] h-[70px] relative left-[230px] flex  overflow-hidden"
         >
           {/* Rank */}
           <div
             style={{ backgroundColor: `${data2[5].ColumnB}` }}
-            className="w-[100px] h-[63px] flex justify-center items-center text-white text-[58px] skew-x-[6deg]"
+            className="w-[100px] h-[63px] flex justify-center items-center text-white text-[58px] "
           >
             {displayIndex}
           </div>
 
           {/* Team */}
-          <div className="bg-[#000000cf] w-[660px] h-[63px] flex skew-x-[6deg]">
+          <div className="bg-[#000000cf] w-[660px] h-[63px] flex ">
             <div className="w-[62px] h-[62px]">
               <Image
                 src={row.ColumnB || ""}
@@ -211,7 +214,7 @@ const Overall: React.FC = () => {
           {/* WWCD */}
           <div
             style={{ backgroundColor: `${data2[5].ColumnB}` }}
-            className="text-white w-[140px] h-[63px] flex justify-center items-center text-[56px] skew-x-[6deg]"
+            className="text-white w-[140px] h-[63px] flex justify-center items-center text-[56px]"
           >
             {row.ColumnE}
           </div>
@@ -219,7 +222,7 @@ const Overall: React.FC = () => {
           {/* Placement */}
           <div
             style={{ backgroundColor: `${data2[5].ColumnB}` }}
-            className="text-white w-[140px] h-[63px] flex justify-center items-center text-[56px] skew-x-[6deg]"
+            className="text-white w-[140px] h-[63px] flex justify-center items-center text-[56px]"
           >
             {row.ColumnD}
           </div>
@@ -227,7 +230,7 @@ const Overall: React.FC = () => {
           {/* Kills */}
           <div
             style={{ backgroundColor: `${data2[5].ColumnB}` }}
-            className="text-white w-[140px] h-[63px] flex justify-center items-center text-[56px] skew-x-[6deg]"
+            className="text-white w-[140px] h-[63px] flex justify-center items-center text-[56px] "
           >
             {row.ColumnC}
           </div>
@@ -238,7 +241,7 @@ const Overall: React.FC = () => {
               backgroundColor: `${data2[5].ColumnB}`,
             
             }}
-            className="w-[140px] h-[63px] flex justify-center items-center text-[56px] skew-x-[6deg] text-white"
+            className="w-[140px] h-[63px] flex justify-center items-center text-[56px]  text-white"
           >
             {row.ColumnF}
           </div>

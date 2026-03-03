@@ -21,7 +21,7 @@ interface GoogleSheetsResponse {
   values: string[][];
 }
 
-const apiKey: string = "AIzaSyCW9Livk0yImrNLglojFFq8pxdlJrIbzXk";
+const apiKey : string= "AIzaSyBSYrS0oU5fAxVVr4e3ohjMflWkxqh_Uk4";
 const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
 const range = "overall1!A2:P100";
 const range2 = "setup!A2:B10";
@@ -124,10 +124,12 @@ const Overall: React.FC = () => {
 
   {/* Text (counter-skewed so it looks normal) */}
   <div 
-              style={{ backgroundColor: `${data2[5].ColumnB}` }}
+              style={{
+    background: `linear-gradient(45deg, ${data2[5].ColumnB}, black, ${data2[5].ColumnB})`,
+  }}
 
-  className="relative z-10  flex items-center h-full">
-    {data2[2].ColumnB} | DAY - {data2[3].ColumnB} | MATCH - {data2[4].ColumnB}
+  className="relative z-10  flex   h-full font-teko text-center w-[100%] justify-center">
+    {data2[2].ColumnB} | DAY {data2[3].ColumnB} | MATCH {data2[4].ColumnB}
   </div>
 </div>
 
@@ -152,14 +154,14 @@ const Overall: React.FC = () => {
               <div className="flex ">
                 <div
                   style={{ color: `${data2[5].ColumnB}` }}
-                  className="flex font-[montserrat] font-[800] text-[24px] tracking-wider "
+                  className="flex font-teko font-[800] text-[24px] tracking-wider "
                 >
                   <div className="ml-[40px]">#</div>
                   <div className="ml-[80px]">TEAM</div>
                   <div className="ml-[570px]">WWCD</div>
                   <div className="ml-[40px]">PLACE</div>
                   <div className="ml-[63px]">KILLS</div>
-                  <div className="ml-[60px]">TOTAL</div>
+                  <div className="ml-[40px]">TOTAL</div>
                 </div>
               </div>
             </div>
@@ -185,25 +187,27 @@ const Overall: React.FC = () => {
             ease: "easeOut",
             delay: index * 0.2,
           }}
-          className="p-4 mb-2 w-[1800px] h-[70px] relative left-[230px] flex  overflow-hidden"
+          className="p-4 mb-2 w-[1800px] h-[80px] relative left-[230px] flex  overflow-hidden"
         >
           {/* Rank */}
           <div
-            style={{ backgroundColor: `${data2[5].ColumnB}` }}
-            className="w-[100px] h-[63px] flex justify-center items-center text-white text-[58px] "
+          style={{
+    background: `linear-gradient(45deg, ${data2[5].ColumnB}, black, ${data2[5].ColumnB})`,
+  }}
+            className="w-[100px] h-[75px] flex justify-center items-center text-white text-[58px] "
           >
             {displayIndex}
           </div>
 
           {/* Team */}
-          <div className="bg-[#000000cf] w-[660px] h-[63px] flex ">
-            <div className="w-[62px] h-[62px]">
+          <div className="bg-[#000000cf] w-[660px] h-[75px] flex ">
+            <div className="w-[62px] h-[82px]">
               <Image
                 src={row.ColumnB || ""}
                 alt="Team Logo"
                 width={62}
                 height={62}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover  "
               />
             </div>
             <div className="text-white text-[58px] ml-[10px] flex items-center">
@@ -213,35 +217,38 @@ const Overall: React.FC = () => {
 
           {/* WWCD */}
           <div
-            style={{ backgroundColor: `${data2[5].ColumnB}` }}
-            className="text-white w-[140px] h-[63px] flex justify-center items-center text-[56px]"
+            style={{
+    background: `linear-gradient(45deg, ${data2[5].ColumnB}, black, ${data2[5].ColumnB})`,
+  }}
+            className="text-white w-[140px] h-[75px] flex justify-center items-center text-[56px]"
           >
             {row.ColumnE}
           </div>
 
           {/* Placement */}
           <div
-            style={{ backgroundColor: `${data2[5].ColumnB}` }}
-            className="text-white w-[140px] h-[63px] flex justify-center items-center text-[56px]"
+          style={{
+    background: `linear-gradient(45deg, ${data2[5].ColumnB}, black, ${data2[5].ColumnB})`,
+  }}
+            className="text-white w-[140px] h-[75px] flex justify-center items-center text-[56px]"
           >
             {row.ColumnD}
           </div>
 
           {/* Kills */}
           <div
-            style={{ backgroundColor: `${data2[5].ColumnB}` }}
-            className="text-white w-[140px] h-[63px] flex justify-center items-center text-[56px] "
+        style={{
+    background: `linear-gradient(45deg, ${data2[5].ColumnB}, black, ${data2[5].ColumnB})`,
+  }}
+            className="text-white w-[140px] h-[75px] flex justify-center items-center text-[56px] "
           >
             {row.ColumnC}
           </div>
 
           {/* Total */}
           <div
-            style={{
-              backgroundColor: `${data2[5].ColumnB}`,
-            
-            }}
-            className="w-[140px] h-[63px] flex justify-center items-center text-[56px]  text-white"
+          
+            className="w-[140px] h-[75px] flex justify-center items-center text-[56px]  text-white bg-[#000000cf] "
           >
             {row.ColumnF}
           </div>

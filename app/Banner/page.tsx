@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import Dead from "../Stats/assets/deaed_logo.png";
 import Image from "next/image";
 
@@ -29,18 +29,20 @@ interface GoogleSheetData {
   values: [string, string][];
 }
 
-const apiKey = "AIzaSyCW9Livk0yImrNLglojFFq8pxdlJrIbzXk";
+const apiKey = "AIzaSyBSYrS0oU5fAxVVr4e3ohjMflWkxqh_Uk4";
 const spreadsheetId = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
 
 const Banner: React.FC = () => {
   const [matchData, setMatchData] = useState<Team[]>([]);
-  const [lastValidData, setLastValidData] = useState<Team[]>([]);
   const [setupData, setSetupData] = useState<SetupData | null>(null);
-  const [primaryColor, setPrimaryColor] = useState("#b31616");
+  const [overallData, setOverallData] = useState<Record<string, number>>({});
+  const lastDataRef = useRef<string>("");
+  const isFetchingRef = useRef(false);
 
   const sheetApiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/setup!A2:B12?key=${apiKey}`;
+  const overallApiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/overall1!A2:P100?key=${apiKey}`;
   const dataUrl =
-    "https://script.google.com/macros/s/AKfycbxsc1qrYICI5hzSEwyUqrEz2KRjgEeBRKr-PAUoyahzHPa8izU2v06wFwI6VnD37jyPrQ/exec";
+    "https://script.google.com/macros/s/AKfycbwqAkBxAuEWkkIcBIne4vlycwOAL_4ESLzWzH_hZVNuZvL0F2m89uoHsLECgWctYkuA/exec";
 
   // Fetch setup data once
   useEffect(() => {
@@ -65,7 +67,6 @@ const Banner: React.FC = () => {
           BG_URL: formatted["BG_URL"] || "",
         };
         setSetupData(structured);
-        setPrimaryColor(structured.PRIMARY_COLOR);
       } catch (err) {
         console.error("Setup fetch failed:", err);
       }
@@ -73,25 +74,85 @@ const Banner: React.FC = () => {
     fetchSetupData();
   }, [sheetApiUrl]);
 
-  // Fetch match data continuously
+  // Fetch overall data once
+  useEffect(() => {
+    const fetchOverallData = async () => {
+      try {
+        const response = await fetch(overallApiUrl);
+        const data = await response.json();
+        
+        if (data.values && Array.isArray(data.values)) {
+          const overallMap: Record<string, number> = {};
+          data.values.forEach((row: string[]) => {
+            if (row[0]) {
+              // Column A (index 0) is team name, Column C (index 2) is total points (matching Overall.tsx ColumnF mapping)
+              const teamName = row[0].trim();
+              const totalPoints = row[2] ? parseInt(row[2], 10) || 0 : 0;
+              overallMap[teamName] = totalPoints;
+            }
+          });
+          setOverallData(overallMap);
+        }
+      } catch (err) {
+        console.error("Overall fetch failed:", err);
+      }
+    };
+    fetchOverallData();
+  }, [overallApiUrl]);
+
+  // Fetch match data continuously with hash-based deduplication
   useEffect(() => {
     let isMounted = true;
-    let retryDelay = 7500; // initial retry delay
+    let retryDelay = 7500;
 
     const fetchData = async () => {
+      if (isFetchingRef.current) {
+        if (isMounted) setTimeout(fetchData, 1000);
+        return;
+      }
+
+      isFetchingRef.current = true;
+
       try {
         const response = await fetch(dataUrl);
         if (!response.ok) throw new Error("Failed to fetch data");
 
         const data = await response.json();
+        
         if (!data.match_info || !Array.isArray(data.match_info))
           throw new Error("Invalid data format");
+
+        // Create hash to check if data actually changed
+        const dataHash = JSON.stringify(
+          data.match_info.map((t: Team) => ({
+            n: t.team_name,
+            k: t.team_kills,
+            a: t.Alive,
+            o: t.overall_points,
+          }))
+        );
+
+        // Skip update if data hasn't changed
+        if (dataHash === lastDataRef.current) {
+          isFetchingRef.current = false;
+          if (isMounted) setTimeout(fetchData, retryDelay);
+          return;
+        }
+
+        lastDataRef.current = dataHash;
 
         const uniqueData: Team[] = data.match_info
           .filter((team: { player_rank: string }) => !team.player_rank)
           .reduce((acc: Team[], team: Team) => {
-            if (!acc.some((item) => item.team_name === team.team_name))
-              acc.push(team);
+            if (!acc.some((item) => item.team_name === team.team_name)) {
+              const processedTeam: Team = {
+                ...team,
+                Alive: typeof team.Alive === 'string' ? parseInt(team.Alive, 10) || 0 : (team.Alive || 0),
+                team_kills: typeof team.team_kills === 'string' ? parseInt(team.team_kills, 10) || 0 : (team.team_kills || 0),
+                overall_points: typeof team.overall_points === 'string' ? parseInt(team.overall_points, 10) : team.overall_points,
+              };
+              acc.push(processedTeam);
+            }
             return acc;
           }, []);
 
@@ -99,16 +160,13 @@ const Banner: React.FC = () => {
 
         if (isMounted) {
           setMatchData(uniqueData);
-          setLastValidData(uniqueData); // save last valid data
-          retryDelay = 7500; // reset backoff on success
+          retryDelay = 7500;
         }
       } catch (err) {
         console.error("Match fetch failed:", err);
-        if (isMounted && lastValidData.length > 0) {
-          setMatchData(lastValidData); // keep last valid data
-          retryDelay = Math.min(retryDelay * 2, 60000); // exponential backoff
-        }
+        retryDelay = Math.min(retryDelay * 2, 60000);
       } finally {
+        isFetchingRef.current = false;
         if (isMounted) setTimeout(fetchData, retryDelay);
       }
     };
@@ -117,24 +175,37 @@ const Banner: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  }, [lastValidData]);
+  }, [dataUrl]);
 
-  // Filter & sort for display
-  const validTeams = matchData.filter(
-    (team) => team.team_name && !team.exclude
-  );
+  // Memoize sorted data to prevent unnecessary recalculations
+  const sortedData = useMemo(() => {
+    const validTeams = matchData.filter(
+      (team) => team.team_name && !team.exclude
+    );
 
-  const sortedData = validTeams.sort((a, b) => {
-    if (a.overall_points !== undefined && b.overall_points !== undefined) {
-      if (a.overall_points > b.overall_points) return -1;
-      if (a.overall_points < b.overall_points) return 1;
-    }
-    if (a.Alive === -1 && b.Alive !== -1) return 1;
-    if (a.Alive !== -1 && b.Alive === -1) return -1;
-    if (a.Alive === 0 && b.Alive !== 0) return 1;
-    if (a.Alive !== 0 && b.Alive === 0) return -1;
-    return 0;
-  });
+    return validTeams.sort((a, b) => {
+      if (a.overall_points !== undefined && b.overall_points !== undefined) {
+        if (a.overall_points > b.overall_points) return -1;
+        if (a.overall_points < b.overall_points) return 1;
+      }
+      if (a.Alive === -1 && b.Alive !== -1) return 1;
+      if (a.Alive !== -1 && b.Alive === -1) return -1;
+      if (a.Alive === 0 && b.Alive !== 0) return 1;
+      if (a.Alive !== 0 && b.Alive === 0) return -1;
+      return 0;
+    });
+  }, [matchData]);
+
+  // Memoize team rows to prevent unnecessary re-renders
+  const teamRows = useMemo(() => {
+    return sortedData.map((team, index) => ({
+      team,
+      index,
+      isDead: team.Alive === 0,
+      isMiss: team.Alive === -1,
+      aliveBars: team.Alive > 0 ? Math.min(team.Alive, 4) : 0,
+    }));
+  }, [sortedData]);
 
   return (
     <div className="w-[1920px] h-[1080px] absolute top-[380px]">
@@ -142,99 +213,105 @@ const Banner: React.FC = () => {
         className="w-[1920px] h-[230px]"
         style={{
           backgroundImage: setupData?.BG_URL
-            ? `url(${setupData.BG_URL})`
-            : undefined,
+            ? `linear-gradient(to right, ${setupData.PRIMARY_COLOR || '#000'}, #000 40%, #000 60%, ${setupData.SECONDARY_COLOR || '#000'}), url(${setupData.BG_URL})`
+            : `linear-gradient(to right, rgba(0,0,0,0.5), rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0.5)), linear-gradient(to right, ${setupData?.PRIMARY_COLOR || '#b31616'}, #000 40%, #000 60%, ${setupData?.SECONDARY_COLOR || '#000000'})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          backgroundColor: !setupData?.BG_URL ? "black" : undefined,
         }}
       >
         <div className="text-[2.2rem] absolute text-white font-bebas-neue bg-[#000000aa] pl-[30px] pr-[30px] left-[750px]">
-          {setupData?.TOR_NAME} - {setupData?.ROUND} - DAY {setupData?.DAY}
+          {setupData?.TOR_NAME} - {setupData?.ROUND} 
         </div>
-        <div
-          className="w-[240px] h-[230px] ml-[20px]"
-          style={{ backgroundColor: setupData?.PRIMARY_COLOR || "black" }}
-        >
-          <img src={setupData?.TOR_LOGO} alt="" />
-        </div>
+    <div
+  className="w-[240px] h-[230px] ml-[20px]"
+  style={{
+    backgroundImage: `linear-gradient(to bottom, #323232 0%, #dadada 50%,  #878787 70%, #181818 100%)`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+  }}
+>
+  <img src={setupData?.TOR_LOGO || "/def_logo.avif"} alt="" />
+</div>
 
         <div className="w-[2500px] flex flex-wrap justify-start items-start gap-x-[10px] gap-y-[10px] px-[120px] py-[10px] scale-75 absolute left-[-120px] top-[13px]">
-          {sortedData.map((team, index) => (
+          {teamRows.map(({ team, index, isDead, isMiss, aliveBars }) => (
             <div
-              key={index}
+              key={`${team.team_name}-${index}`}
               style={{
                 borderColor: setupData?.PRIMARY_COLOR,
                 clipPath:
                   "polygon(0% 0%, 100% 0%, 100% 100%, 4% 100%, 0% 80%, 0% 90%)",
-                opacity: team.Alive === 0 || team.Alive === -1 ? 0.5 : 1,
+                opacity: isDead || isMiss ? 0.5 : 1,
                 width: "350px",
               }}
-              className="bg-[#393939] h-[50px] relative flex font-bebas-neue font-[300] border-b-2"
+              className="bg-[#0d0d0d] h-[50px] relative flex font-bebas-neue font-[300] border-b-2 border-t-2 border-r-2"
             >
               <div
                 style={{
                   backgroundColor: setupData?.PRIMARY_COLOR,
                   clipPath:
-                    "polygon(5% 0%, 100% 0%, 100% 100%, 0% 100%, 30% 30%, 0% 60%)",
+                    "polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%, 30% 30%, 0% 60%)",
                 }}
-                className="text-white text-[35px] flex text-center justify-center items-center w-[60px]"
+                className="text-white text-[35px] flex text-center justify-center items-center w-[50px]"
               >
                 {index + 1}
               </div>
               <div
-                className={`${
-                  team.Alive === 0 ? "bg-[#ffffff00]" : "bg-[#fafafa00]"
-                } h-[50px] absolute left-[60px] flex justify-left text-black`}
-                style={{ width: "170px" }}
+                className={
+                  isDead ? "bg-[#ffffff00]" : "bg-[#fafafa00]"
+                }
+                style={{ width: "170px", height: "50px" }}
               >
                 <div
-                  style={{ backgroundColor: setupData?.SECONDARY_COLOR }}
-                  className="w-[50px] h-[50px] absolute z-10 border-r-[2px] border-black"
+                
+                  className="w-[50px] h-[50px] absolute z-10 border-r-[2px] border-black bg-white"
                 >
                   <Image
                     src={
                       team.team_logo ||
-                      "https://res.cloudinary.com/dqckienxj/image/upload/v1727161652/default_nuloh2.png"
+                      "/def_logo.avif"
                     }
                     alt="Team Logo"
                     width={50}
                     height={50}
                   />
                 </div>
-                <div className="bg-white w-[120px] h-[80px] absolute left-[50px] top-[0px]"></div>
-                <div className="text-[35px] w-[200px] h-[500px] absolute left-[54px]">
+              
+                <div className="text-[35px] w-[100px] h-[500px] absolute left-[95px] bg-white pl-[10px]">
                   {team.team_name}
                 </div>
               </div>
-              <div className="absolute left-[240px] flex gap-[4px] mt-[7px] skew-y-6">
-                {team.Alive === -1 ? (
-                  <div className="text-white text-[20px] font-bold">MISS</div>
-                ) : team.Alive === 0 ? (
-                  <div className="w-[50px] h-[50px] absolute top-[-5px] opacity-[70%]">
-                    <Image src={Dead.src} alt="Dead Icon" width={50} height={50} />
-                  </div>
-                ) : (
-                  Array.from({ length: 4 }).map((_, idx) => (
-                    <div
-                      key={idx}
-                      className="w-[10px] h-[35px]"
-                      style={{
-                        backgroundColor:
-                          idx < team.Alive
-                            ? setupData?.SECONDARY_COLOR
-                            : "#FF0000",
-                      }}
-                    ></div>
-                  ))
-                )}
-              </div>
-              <div className="absolute left-[300px] text-white text-[35px] mt-[1px] flex items-center justify-center w-[50px] h-[50px]">
+           <div className="absolute left-[200px] flex gap-[4px] mt-[7px] ">
+  {isMiss ? (
+    <div className="text-white text-[20px] font-bold">MISS</div>
+  ) : (
+    Array.from({ length: 4 }).map((_, idx) => {
+      const isBarAlive = idx < aliveBars;
+
+      return (
+        <div
+          key={idx}
+          className="w-[10px] h-[35px] "
+          style={{
+            backgroundImage: isBarAlive
+              ? `linear-gradient(to bottom, ${setupData?.PRIMARY_COLOR || '#b31616'} 100%, white 50%, ${setupData?.SECONDARY_COLOR || '#000'} 100%)`
+              : "linear-gradient(to bottom, #FF0000 100%, white 20%, #FF0000 100%)",
+            boxShadow: isBarAlive
+              ? `inset 0 2px 4px rgba(255, 255, 255, 0.5)`
+              : `inset 0 2px 4px rgba(255, 255, 255, 0.7)`,
+            border: "0.1px solid #ffffff9c",
+          }}
+        />
+      );
+    })
+  )}
+</div>
+              <div className="absolute left-[250px] text-white text-[35px] mt-[1px] flex items-center justify-center w-[50px] h-[50px]">
                 {team.team_kills}
               </div>
-              <div className="absolute left-[364px] text-white text-[35px] mt-[1px] flex items-center justify-center w-[50px] h-[50px]">
-                {team.overall_points}
+             <div className="absolute left-[300px] text-white text-[35px] mt-[1px] flex items-center justify-center w-[50px] h-[50px]">
+             {overallData[team.team_name] ?? 0}
               </div>
             </div>
           ))}

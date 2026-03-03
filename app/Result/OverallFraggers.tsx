@@ -19,7 +19,7 @@ interface SetupData {
   ColumnB: string;
 }
 
-const apiKey: string = "AIzaSyCW9Livk0yImrNLglojFFq8pxdlJrIbzXk";
+const apiKey : string= "AIzaSyBSYrS0oU5fAxVVr4e3ohjMflWkxqh_Uk4";
 const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
 const range = "overall1!A2:O200"; // Range you want to fetch (adjust this as needed)
 const range2 = "setup!A2:B10"; // Another range for setup data
@@ -45,11 +45,11 @@ const Fragger: React.FC = () => {
           team_name: row[0] || "name", // Column 0 - Team Name (e.g., "4BS")
           team_logo:
             row[1] ||
-            "https://res.cloudinary.com/dqckienxj/image/upload/v1730785916/default_ryi6uf_edmapm.png", // Column 1 - Team Logo (e.g., logo URL)
+            "/def_logo.avif", // Column 1 - Team Logo (e.g., logo URL)
           player_name: row[6] || "Unknown", // Column 6 - Player Name (e.g., "PLAYER 6")
           player_photo:
             row[8] ||
-            "https://res.cloudinary.com/dqckienxj/image/upload/v1727161666/defult_chach_apsjhc.png", // Column 8 - Player Photo URL
+            "/def_char.avif", // Column 8 - Player Photo URL
           player_kills: Number(row[7]) || 0, // Column 7 - Player Kills (e.g., 12)
           player_matches: Number(row[14]) || 0, // Column 14 - Matches Played (e.g., 1)
           kd_ratio: Number(row[5]) || 0, // Column 5 - K/D Ratio (e.g., 12)
@@ -115,7 +115,7 @@ const Fragger: React.FC = () => {
       exit={{ opacity: 0 }} // Fade out on exit
       transition={{ duration: 2 }}
     >
-      <div className="w-[1920px] h-[1080px] flex font-[teko] font-[500] ">
+      <div className="w-[1920px] h-[1080px] flex font-bebas-neue  font-[500] ">
         <div className="text-white text-[150px] absolute left-[70px] top-[-20px]">
           OVERALL FRAGGERS
         </div>
@@ -125,11 +125,12 @@ const Fragger: React.FC = () => {
           <div
             className="absolute top-[170px] left-[70px] text-white bg-red-800 pl-4 pr-4 text-center"
             style={{
-              backgroundColor: primaryColor,
-            }}
+    background: `linear-gradient(to right, ${primaryColor}, black, ${primaryColor})`,
+  }}
+
           >
-            <div className="text-[40px] font-[orbitron] font-[800] tracking-wider">
-              {data2[2]?.ColumnB} | DAY - {data2[3]?.ColumnB} | MATCH -{" "}
+            <div className="text-[40px] font-teko font-[600] ">
+              {data2[2]?.ColumnB} | DAY {data2[3]?.ColumnB} | MATCH {" "}
               {data2[4]?.ColumnB}
             </div>
           </div>
@@ -150,14 +151,12 @@ const Fragger: React.FC = () => {
               }} // Staggered animation
             >
               <div
-                className="bg-[#000000bb] border-solid border-red-800 w-[340px] h-[492px] mr-[20px] border-[2px]"
-                style={{
-                  borderColor: primaryColor,
-                }}
+                className="bg-[#000000bb] w-[340px] h-[492px] mr-[20px] "
+       
               >
                 <div className="w-[100px] h-[100px] mb-[-100px] relative left-[240px]">
                   <Image
-                    src={row.team_logo || "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921117/orqtufih6h2efu2s24um.png"}
+                    src={row.team_logo || "/def_logo.avif"}
                     alt="Team Logo"
                     width={120} // specify the width
                     height={120} // specify the height
@@ -166,16 +165,16 @@ const Fragger: React.FC = () => {
                 <div className="text-white mb-[-90px] text-[60px] ml-[10px] relative bottom-[10px]">
                   {index + 1}
                 </div>
-                <div className="text-white w-[490px] relative right-[80px] top-[0px] mb-[407px]">
+                <div className="text-white w-[360px] relative right-[10px] top-[40px] mb-[390px]">
                   <Image
                     src={
                       !row.player_photo || row.player_photo === "#N/A"
-                        ? "https://res.cloudinary.com/dczgqqgdp/image/upload/v1768921113/nidvrnkwo0qbpatawjjq.png"
+                        ? "/def_char.avif"
                         : row.player_photo
                     }
                     alt="Player"
-                    width={800}
-                    height={800}
+                    width={600}
+                    height={600}
                     className="object-cover absolute"
                   />
                 </div>
@@ -191,9 +190,9 @@ const Fragger: React.FC = () => {
                 </div>
                 <div
                   className="bg-red-800 w-[100%] h-[230px] text-white text-[60px]"
-                  style={{
-                    backgroundColor: primaryColor,
-                  }}
+                style={{
+    background: `linear-gradient(45deg, ${primaryColor}, black, ${primaryColor})`,
+  }}
                 >
                   <div className="relative bottom-[-10px]">
                     <div className="ml-[8px] relative top-[-10px] flex">
@@ -229,7 +228,7 @@ const Fragger: React.FC = () => {
                   </div>
                 </div>
                 <div className="bg-white w-[80%] h-[30px] relative left-[30px]">
-                  <div className="relative text-center text-[20px] font-[orbitron] font-extrabold">
+                  <div className="relative text-center text-[20px] font-bebas-neue ">
                     TEAM {row.team_name}
                   </div>
                 </div>

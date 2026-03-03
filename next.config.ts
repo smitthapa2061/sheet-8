@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["res.cloudinary.com"], // Add this line to allow images from Cloudinary
+    domains: ["res.cloudinary.com", "cdn.discordapp.com"], // add Discord
   },
 };
 

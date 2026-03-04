@@ -226,7 +226,7 @@ const Banner: React.FC = () => {
     <div
   className="w-[240px] h-[230px] ml-[20px]"
   style={{
-    backgroundImage: `linear-gradient(to bottom, #323232 0%, #dadada 50%,  #878787 70%, #181818 100%)`,
+    backgroundImage: `linear-gradient(45deg, #323232 0%, #dadada 30%,  #ffffff 100%, #181818 100%)`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
   }}

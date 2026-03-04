@@ -77,7 +77,6 @@ const Banner: React.FC = () => {
   // Fetch overall data once
   useEffect(() => {
   let isMounted = true;
-  let interval: NodeJS.Timeout;
 
   const fetchOverallData = async () => {
     try {
@@ -111,7 +110,7 @@ const Banner: React.FC = () => {
   fetchOverallData();
 
   // Then poll every 3 minutes
-  interval = setInterval(fetchOverallData, 100000); // 3 mins
+  const interval: NodeJS.Timeout = setInterval(fetchOverallData, 100000); // 3 mins
 
   return () => {
     isMounted = false;

@@ -76,29 +76,47 @@ const Banner: React.FC = () => {
 
   // Fetch overall data once
   useEffect(() => {
-    const fetchOverallData = async () => {
-      try {
-        const response = await fetch(overallApiUrl);
-        const data = await response.json();
-        
-        if (data.values && Array.isArray(data.values)) {
-          const overallMap: Record<string, number> = {};
-          data.values.forEach((row: string[]) => {
-            if (row[0]) {
-              // Column A (index 0) is team name, Column C (index 2) is total points (matching Overall.tsx ColumnF mapping)
-              const teamName = row[0].trim();
-              const totalPoints = row[2] ? parseInt(row[2], 10) || 0 : 0;
-              overallMap[teamName] = totalPoints;
-            }
-          });
+  let isMounted = true;
+
+  const fetchOverallData = async () => {
+    try {
+      const response = await fetch(overallApiUrl);
+      const data = await response.json();
+
+      if (data.values && Array.isArray(data.values)) {
+        const overallMap: Record<string, number> = {};
+
+        data.values.forEach((row: string[]) => {
+          if (row[0]) {
+            const teamName = row[0].trim();
+            const totalPoints = row[2]
+              ? parseInt(row[2], 10) || 0
+              : 0;
+
+            overallMap[teamName] = totalPoints;
+          }
+        });
+
+        if (isMounted) {
           setOverallData(overallMap);
         }
-      } catch (err) {
-        console.error("Overall fetch failed:", err);
       }
-    };
-    fetchOverallData();
-  }, [overallApiUrl]);
+    } catch (err) {
+      console.error("Overall fetch failed:", err);
+    }
+  };
+
+  // Fetch immediately
+  fetchOverallData();
+
+  // Then poll every 3 minutes
+  const interval: NodeJS.Timeout = setInterval(fetchOverallData, 100000); // 3 mins
+
+  return () => {
+    isMounted = false;
+    clearInterval(interval);
+  };
+}, [overallApiUrl]);
 
   // Fetch match data continuously with hash-based deduplication
   useEffect(() => {

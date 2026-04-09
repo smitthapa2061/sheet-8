@@ -14,7 +14,7 @@ interface PlayerData {
   contribution: string;
 }
 
-const apiKey: string = "AIzaSyCW9Livk0yImrNLglojFFq8pxdlJrIbzXk";
+const apiKey: string = "AIzaSyBSYrS0oU5fAxVVr4e3ohjMflWkxqh_Uk4";
 const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
 
 const range = "overall1!A2:O100";

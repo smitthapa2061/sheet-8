@@ -4,7 +4,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import Image from "next/image"; // Import Next.js Image component
 
-const apiKey: string = "AIzaSyD5aSldQht9Aa4Snmf_aYo2jSg2A8bxhws"; // Your Google Sheets API key
+const apiKey: string = "AIzaSyBSYrS0oU5fAxVVr4e3ohjMflWkxqh_Uk4";
 const spreadsheetId: string = "1f1eVMjmhmmgBPxnLI8FGkvhusLzl55jPb4_B8vjjgpo"; // Your Google Sheets ID
 const range: string = "overall1!A2:O100"; // Range for overall stats
 const setupRange: string = "setup!A2:B10"; // Range for setup data (like primary color)

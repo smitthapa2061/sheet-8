@@ -21,7 +21,7 @@ interface GoogleSheetsResponse {
   values: string[][];
 }
 
-const apiKey : string= "AIzaSyBSYrS0oU5fAxVVr4e3ohjMflWkxqh_Uk4";
+const apiKey: string = "AIzaSyBSYrS0oU5fAxVVr4e3ohjMflWkxqh_Uk4";
 const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
 const range = "overall1!A2:P100";
 const range2 = "setup!A2:B10";
@@ -94,11 +94,21 @@ const Overall: React.FC = () => {
   }, [data]);
 
   const sortedData = [...data].sort((a, b) => {
-    if (b.ColumnF !== a.ColumnF) return b.ColumnF - a.ColumnF;
-    if (a.ColumnD !== b.ColumnD) return b.ColumnD - a.ColumnD;
-    if (b.ColumnC !== a.ColumnC) return b.ColumnC - a.ColumnC;
+  // 1️⃣ Total Points
+  if (b.ColumnF !== a.ColumnF) 
+    return b.ColumnF - a.ColumnF;
+
+  // 2️⃣ WWCD
+  if (b.ColumnE !== a.ColumnE) 
     return b.ColumnE - a.ColumnE;
-  });
+
+  // 3️⃣ Position Points
+  if (b.ColumnD !== a.ColumnD) 
+    return b.ColumnD - a.ColumnD;
+
+  // 4️⃣ Kills
+  return b.ColumnC - a.ColumnC;
+});
 
   const startIndex = visibleColumn * batchSize;
   const endIndex = Math.min(startIndex + batchSize, sortedData.length);

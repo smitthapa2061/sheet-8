@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image"; // Make sure you import Image from Next.js
 import { div } from "framer-motion/client";
 // Google Sheets API details
-const apiKey: string = "AIzaSyD5aSldQht9Aa4Snmf_aYo2jSg2A8bxhws";
+const apiKey: string = "AIzaSyBSYrS0oU5fAxVVr4e3ohjMflWkxqh_Uk4";
 const spreadsheetId: string = "1f1eVMjmhmmgBPxnLI8FGkvhusLzl55jPb4_B8vjjgpo";
 const range = "SlotList!A1:C21";
 const range2 = "setup!A2:B10";

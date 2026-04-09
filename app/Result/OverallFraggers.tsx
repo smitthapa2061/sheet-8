@@ -19,7 +19,7 @@ interface SetupData {
   ColumnB: string;
 }
 
-const apiKey : string= "AIzaSyBSYrS0oU5fAxVVr4e3ohjMflWkxqh_Uk4";
+const apiKey: string = "AIzaSyBSYrS0oU5fAxVVr4e3ohjMflWkxqh_Uk4";
 const spreadsheetId: string = "1mrEcSItZjsMf-T8f6UoOcEXro0Fm06hYLc3oMhdUDck";
 const range = "overall1!A2:O200"; // Range you want to fetch (adjust this as needed)
 const range2 = "setup!A2:B10"; // Another range for setup data

@@ -145,15 +145,15 @@ const PointsTable = () => {
           {/* Header Row */}
           <div
             style={{ borderBottom: `3px solid ${primaryColor}` }}
-            className="flex items-center text-white text-[26px] font-[700] pb-3"
+            className="flex items-center text-white text-[26px] font-[700] pb-3 relative left-[-15px]"
           >
             <div className="w-[80px]">#</div>
             <div className="flex-1">TEAM</div>
-            <div className="w-[90px] text-center">MP</div>
+            <div className="w-[90px] text-center">pp</div>
             <div className="w-[90px] text-center">KP</div>
-            <div className="w-[90px] text-center">PP</div>
-            <div className="w-[90px] text-center">TT</div>
+            <div className="w-[90px] text-center">TP</div>
             <div className="w-[90px] text-center">CD</div>
+           
           </div>
 
           {/* Rows */}
@@ -183,11 +183,11 @@ const PointsTable = () => {
 
                   {/* Team */}
                   <div className="flex-1 font-[600] tracking-wide">
-                    {team.team}
+                    {team.team.toUpperCase()}
                   </div>
 
                   {/* Stats */}
-                  <div className="w-[90px] text-center">{team.mp}</div>
+               
                   <div className="w-[90px] text-center">{team.kp}</div>
                   <div className="w-[90px] text-center">{team.pp}</div>
 
@@ -231,6 +231,16 @@ const PointsTable = () => {
           }`}
         >
           Page 2
+        </button>
+           <button
+          onClick={() => setPage(2)}
+          className={`px-8 py-2 rounded-lg font-[700] transition ${
+            page === 2
+              ? "bg-red-600 text-white"
+              : "bg-black text-white border border-white/20"
+          }`}
+        >
+          Page 3
         </button>
 
       </div>

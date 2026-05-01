@@ -136,7 +136,7 @@ const SlotListData = () => {
     {/* Title Section */}
     <div className="absolute top-[95px] w-[100%] flex flex-col items-center z-10 ">
       
-      <div className="text-black text-[70px] font-[teko] font-[800]  drop-shadow-lg">
+      <div className="text-white text-[70px] font-[teko] font-[800]  drop-shadow-lg">
         {title}
       </div>
 
